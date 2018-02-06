@@ -1,37 +1,64 @@
 import React, { Component, PropTypes } from 'react';
 import {
   BrowserRouter as Router,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configure from './store';
 
 const store = configure();
 
-class Yolo extends Component {
-    render() {
-        return(<h1>Hello World  !!</h1>);
-    }
-};
+class EpisodeItemComponent extends React.Component {
 
-class Swag extends Component {
-    render() {
-        return(<h1>Yolo Swag</h1>);
+    constructor(props){
+        super(props);
+
+        this.state = {
+            episodes: []
+        };
     }
-};
+
+    componentDidMount(){
+        fetch('/api/episodes', {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        .then((response) => {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server");
+            }
+            return response.json();
+        })
+        .then((datas) => {
+            this.setState({ episodes: datas });
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+
+    render(){
+        const episodes = this.state.episodes;
+        return (
+            <ul>
+                {episodes.map(episode => <li key={episode.id}>{episode.id} {episode.name} {episode.code} {episode.note}</li>)}
+            </ul>
+        );
+    }
+}
 
 export default class App extends Component {
-    render() {
+    render(){
         return (
             <Provider store={store}>
                 <Router>
-                  <div>
-                    <Route path="/" component={Yolo}>
-                    </Route>
-                    <Route path="/new" component={Swag}>
-                    </Route>
-                  </div>
+                    <div>
+                        <Route path="/" component={EpisodeItemComponent}>
+                        </Route>
+                    </div>
                 </Router>
             </Provider>
         );

@@ -1,4 +1,5 @@
 const express = require('express');
+const uuid = require('node-uuid');
 const config = require('./../config.js');
 const repository = require('./../Repository/EpisodeRepository.js');
 
@@ -8,12 +9,13 @@ var router = express.Router();
 /*
     Method : POST
     Url : /api/episodes
-    Description : Add Episodes
+    Description : Add Episode
  */
 router.post('/', function (request, response) {
     let episode = request.body;
 
     if (episode) {
+        episode.id = uuid.v4();
         repository.add(episode).then((episodes) => {
             response.status(201);
             response.send(episodes);
@@ -26,9 +28,9 @@ router.post('/', function (request, response) {
 });
 
 /*
- Method : PUT
- Url : /api/episodes/:id
- Description : Update Episode
+    Method : PUT
+    Url : /api/episodes/:id
+    Description : Update Episode
  */
 router.put('/:id', function (request, response) {
     let episode = repository.edit(request.params.id, request.body);
@@ -42,9 +44,9 @@ router.put('/:id', function (request, response) {
 });
 
 /*
- Method : GET
- Url : /api/episodes
- Description : Get List of Episodes
+    Method : GET
+    Url : /api/episodes
+    Description : Get List of Episodes
  */
 router.get('/', function (request, response) {
     repository.findAll().then((episodes) => {
@@ -56,9 +58,9 @@ router.get('/', function (request, response) {
 });
 
 /*
- Method : GET
- Url : /api/episodes/:id
- Description : Get Episode
+    Method : GET
+    Url : /api/episodes/:id
+    Description : Get Episode
  */
 router.get('/:id', function (request, response) {
     repository.findBy(request.params.id).then((episode) => {
@@ -70,9 +72,9 @@ router.get('/:id', function (request, response) {
 });
 
 /*
- Method : DELETE
- Url : /api/episodes/:id
- Description : Delete Episode
+    Method : DELETE
+    Url : /api/episodes/:id
+    Description : Delete Episode
  */
 router.delete('/:id', function (request, response) {
     repository.delete(request.params.id).then(() => {

@@ -1,6 +1,5 @@
 const config = require('./../config.js');
 const fs = require('fs');
-const uuid = require('node-uuid');
 
 class EpisodeRepository {
     constructor() {
@@ -88,7 +87,6 @@ class EpisodeRepository {
     add(object) {
         return new Promise((resolve, reject) => {
             let episode = object;
-            episode.id = uuid.v4();
 
             this.writeFile(`${episode.id}.json`, episode).then((episode) => {
                 resolve(episode);
