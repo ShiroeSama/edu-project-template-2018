@@ -1,7 +1,7 @@
 node_modules
 npm-debug.log
 build
-!data/.gitkeep
 data/*
+!data/.gitkeep
 yarn.lock
 .idea
