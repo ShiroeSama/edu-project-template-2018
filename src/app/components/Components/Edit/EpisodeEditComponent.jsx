@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+
+import EpisodeUpdateButtonComponent from './EpisodeUpdateButtonComponent';
 
 /* ------------------------------------------------ */
-/* Detail Component */
+/* Edit Component */
 /* ------------------------------------------------ */
 
-export default class EpisodeDetailComponent extends Component {
+export default class EpisodeEditComponent extends Component {
 
     constructor(props){
         super(props);
@@ -13,6 +15,8 @@ export default class EpisodeDetailComponent extends Component {
             id: props.match.params.id,
             episode: {}
         };
+
+        this.validationForm = this.validationForm.bind(this);
     }
 
     componentDidMount() {
@@ -37,23 +41,37 @@ export default class EpisodeDetailComponent extends Component {
             });
     }
 
+    validationForm(event) {
+        var target = event.target;
+        var fieldValue = target.value;
+
+        var newEpisode = {
+            id: this.state.episode.id,
+            name: this.state.episode.name,
+            code: this.state.episode.code,
+            note: fieldValue
+        };
+
+        this.setState({episode: newEpisode});
+    }
+
     render(){
         return(
             <div>
                 <style dangerouslySetInnerHTML={{__html: `
-                    body { overflow-y: scroll !important; }
+                        body { overflow-y: scroll !important; }
 
-                    .container {
-                        box-sizing: content-box;
-                        width: 100%;
-                    }
+                        .container {
+                            box-sizing: content-box;
+                            width: 100%;
+                        }
 
-                    .item {
-                        vertical-align: top;
-                        box-sizing: border-box;
-                        width: 100%;
-                    }
-                `}} />
+                        .item {
+                            vertical-align: top;
+                            box-sizing: border-box;
+                            width: 100%;
+                        }
+                    `}} />
 
                 <link type="text/css" rel="stylesheet" href="https://backoffice.shiros.fr/public/Css/Alert.css"/>
                 <link type="text/css" rel="stylesheet" href="https://backoffice.shiros.fr/public/Css/Button.css"/>
@@ -71,7 +89,7 @@ export default class EpisodeDetailComponent extends Component {
                         <a className="post-TitleName">{this.state.episode.name}</a>
 
                         <div method="post" className="div-right marginRight-20">
-                            <Link className="btn btn-primary btn-third margin-10" to="/">Retour</Link>
+                            <Link className="btn btn-third margin-10" to={`/${this.state.episode.id}`}>Retour</Link>
                         </div>
                     </div>
 
@@ -82,17 +100,18 @@ export default class EpisodeDetailComponent extends Component {
                                 <legend>Informations</legend>
 
                                 <div>Code : {this.state.episode.code}</div>
-                                <div>Note : {this.state.episode.note}</div>
 
-                                <div className="divInline-center">
-                                    <Link className="btn btn-primary margin-10" to={`/edit/${this.state.episode.id}`}>Edit</Link>
+                                <div>
+                                    <input type="number" name="note" placeholder="Note de l'episode" value={this.state.episode.note} onChange={this.validationForm} />
                                 </div>
+
+                                <EpisodeUpdateButtonComponent episode={this.state.episode}/>
                             </form>
                         </div>
                     </div>
                 </section>
 
             </div>
-        );
+        )
     }
 }

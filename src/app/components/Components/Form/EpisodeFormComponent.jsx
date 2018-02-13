@@ -18,7 +18,7 @@ export default class EpisodeFormComponent extends Component {
         this.validationForm = this.validationForm.bind(this);
     }
 
-    validationForm(event){
+    validationForm(event) {
         const target = event.target;
 
         const fieldName = target.name;
@@ -29,7 +29,7 @@ export default class EpisodeFormComponent extends Component {
         });
     }
 
-    render(){
+    render() {
         return(
             <section className="post margin-20">
                 <div className="post-Title"><a>Ajout d'une Serie</a></div>

@@ -10,6 +10,7 @@ import configure from './store';
 import EpisodeListComponent from './Components/List/EpisodeListComponent';
 import EpisodeFormComponent from './Components/Form/EpisodeFormComponent';
 import EpisodeDetailComponent from './Components/Detail/EpisodeDetailComponent';
+import EpisodeEditComponent from './Components/Edit/EpisodeEditComponent';
 
 const store = configure();
 
@@ -83,7 +84,8 @@ export default class App extends Component {
                 <Router>
                     <div>
                         <Route exact={true} path="/" component={EpisodeComponent} />
-                        <Route path="/:id" component={EpisodeDetailComponent} />
+                        <Route exact={true} path="/:id" component={EpisodeDetailComponent} />
+                        <Route exact={true} path="/edit/:id" component={EpisodeEditComponent} />
                     </div>
                 </Router>
             </Provider>
