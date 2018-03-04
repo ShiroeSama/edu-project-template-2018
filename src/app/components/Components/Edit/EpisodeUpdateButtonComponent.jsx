@@ -9,7 +9,7 @@ const history = createBrowserHistory();
 
 export default class EpisodeUpdateButtonComponent extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
@@ -26,7 +26,7 @@ export default class EpisodeUpdateButtonComponent extends Component {
                 if (response.status >= 400) {
                     throw new Error("Bad response from server");
                 } else {
-                    history.push(`/${this.props.episode.id}`);
+                    window.location = `/${this.props.episode.id}`;
                 }
             })
             .catch((error) => {
